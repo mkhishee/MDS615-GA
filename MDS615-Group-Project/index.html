@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scaffold</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" id="home-link">Home</a></li>
+                <li><a href="#" id="calendar-link">Calendar</a></li>
+                <li><a href="#" id="music-link">Music Player</a></li>
+                <li><a href="#" id="photo-link">Photo Upload</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="content">
+        <section id="home">
+            <h1>Welcome to the Web Scaffold of SPI230974, SPI230983, SPI231057 </h1>
+            <p> Khishigbat.M, Oyunchimeg.M, Enkhjargal.D </p>
+        </section>
+
+        <section id="calendar" style="display:none;">
+            <h2>Calendar</h2>
+            <div class="container">
+                <div class="calendar">
+                    <div class="front">
+                        <div class="header">
+                            <button id="prev">‹</button>
+                            <div class="current-date">
+                                <h1 id="current-month-year"></h1>
+                            </div>
+                            <button id="next">›</button>
+                        </div>
+                        <ul class="week-days">
+                            <li>MON</li>
+                            <li>TUE</li>
+                            <li>WED</li>
+                            <li>THU</li>
+                            <li>FRI</li>
+                            <li>SAT</li>
+                            <li>SUN</li>
+                        </ul>
+                        <div class="weeks"></div>
+                    </div>
+
+                    <div class="back">
+                        <h3 id="event-date"></h3>
+                        <ul id="event-list"></ul>
+                        <input placeholder="Add a new event" id="event-input">
+                        <div class="actions">
+                            <button class="save" id="save-event">Add event</button>
+                            <button class="dismiss" id="dismiss-event">Exit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="music" style="display:none;">
+            <h2>Music Player</h2>
+            <div id="player-controls">
+                <button id="prev-btn">Previous</button>
+                <button id="play-pause-btn">Play</button>
+                <button id="next-btn">Next</button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+                <label for="volume-slider">Volume</label>
+            </div>
+
+            <!-- Display the current track -->
+            <div id="track-info">
+                <h2 id="track-name">No track selected</h2>
+            </div>
+
+            <!-- Upload Music Files -->
+            <div id="upload-area">
+                <label for="music-upload">Upload your music:</label>
+                <input type="file" id="music-upload" multiple accept="audio/*">
+            </div>
+
+            <script src="script.js"></script>
+        </section>
+
+
+        <section id="photo" style="display:none;">
+            <h2>Photo Upload</h2>
+            <div class="upload-container">
+                <label for="photo-upload" class="upload-btn">Upload Photos</label>
+                <input type="file" id="photo-upload" accept="image/*" multiple>
+            </div>
+
+            <!-- Preview Container -->
+            <div id="photo-preview" class="photo-preview-container">
+                <h3>Preview:</h3>
+                <div id="photo-gallery"></div>
+            </div>
+
+            <script src="script.js"></script>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Web Scaffold Project</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

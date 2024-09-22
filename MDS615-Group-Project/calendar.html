@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Calendar with Event Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            max-width: 1000px;
+            margin: 20px auto;
+            text-align: center;
+            background-color:pink
+        }
+        .day {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 15px;
+            position: relative;
+            height: 120px;
+        }
+        .day-number {
+            font-weight: bold;
+        }
+        .events {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #555;
+        }
+        .add-event-btn, .edit-event-btn, .delete-event-btn {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+        .edit-event-btn, .delete-event-btn {
+            left: 5px;
+            background-color: #ff6961;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .edit-event-btn {
+            background-color: #77dd77;
+        }
+        #addEventModal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #addEventModal input, #addEventModal button {
+            margin: 5px 0;
+            width: 100%;
+        }
+        .modal-show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            #calendar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        @media (max-width: 500px) {
+            #calendar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1> Calendar with Event Management</h1>
+
+<div id="calendar"></div>
+
+<!-- Modal for Adding and Editing Events -->
+<div id="addEventModal">
+    <h3>Add/Edit Event</h3>
+    <input type="text" id="eventTitle" placeholder="Event Title">
+    <input type="date" id="eventDate">
+    <button id="saveEventBtn">Save Event</button>
+    <button id="cancelBtn">Cancel</button>
+</div>
+
+<script>
+        const calendar = document.getElementById("calendar");
+        const modal = document.getElementById("addEventModal");
+        const eventTitleInput = document.getElementById("eventTitle");
+        const eventDateInput = document.getElementById("eventDate");
+        const saveEventBtn = document.getElementById("saveEventBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+
+        let isEditing = false;
+        let currentDay = null;
+
+        // Initialize the Calendar
+        function loadCalendar() {
+            calendar.innerHTML = ""; // Clear the calendar
+            for (let i = 1; i <= 31; i++) {
+                const day = document.createElement("div");
+                day.className = "day";
+                day.innerHTML = `<div class="day-number">${i}</div>
+                                 <div class="events" id="events-${i}"></div>
+                                 <button class="add-event-btn" onclick="openEventModal(${i})">Add Event</button>`;
+                calendar.appendChild(day);
+                loadEvents(i);
+            }
+        }
+
+        // Open the modal for adding or editing an event
+        function openEventModal(day) {
+            isEditing = false;
+            currentDay = day;
+            modal.classList.add("modal-show");
+            eventDateInput.value = `2023-09-${String(day).padStart(2, '0')}`;
+        }
+
+        // Save the event (either new or edited)
+        function saveEvent() {
+            const eventTitle = eventTitleInput.value.trim();
+            if (eventTitle) {
+                let events = JSON.parse(localStorage.getItem("events")) || {};
+                if (!isEditing) {
+                    // New Event
+                    if (!events[currentDay]) events[currentDay] = [];
+                    events[currentDay].push(eventTitle);
+                } else {
+                    // Editing Existing Event
+                    const eventIndex = parseInt(saveEventBtn.dataset.index);
+                    events[currentDay][eventIndex] = eventTitle;
+                    isEditing = false;
+                }
+                localStorage.setItem("events", JSON.stringify(events));
+                loadEvents(currentDay);
+                closeModal();
+            }
+        }
+
+        // Load events for a specific day
+        function loadEvents(day) {
+            const events = JSON.parse(localStorage.getItem("events")) || {};
+            const eventList = document.getElementById(`events-${day}`);
+            eventList.innerHTML = ""; // Clear the current event list
+            if (events[day]) {
+                events[day].forEach((event, index) => {
+                    const eventItem = document.createElement("div");
+                    eventItem.innerText = event;
+                    const editBtn = document.createElement("button");
+                    editBtn.classList.add("edit-event-btn");
+                    editBtn.innerText = "Edit";
+                    editBtn.onclick = function () {
+                        editEvent(day, index, event);
+                    };
+                    const deleteBtn = document.createElement("button");
+                    deleteBtn.classList.add("delete-event-btn");
+                    deleteBtn.innerText = "Delete";
+                    deleteBtn.onclick = function () {
+                        deleteEvent(day, index);
+                    };
+                    eventItem.appendChild(editBtn);
+                    eventItem.appendChild(deleteBtn);
+                    eventList.appendChild(eventItem);
+                });
+            }
+        }
+
+        // Edit an event
+        function editEvent(day, index, event) {
+            currentDay = day;
+            isEditing = true;
+            eventTitleInput.value = event;
+            saveEventBtn.dataset.index = index; // Store event index to edit
+            modal.classList.add("modal-show");
+        }
+
+        // Delete an event
+        function deleteEvent(day, index) {
+            let events = JSON.parse(localStorage.getItem("events")) || {};
+            events[day].splice(index, 1); // Remove the event
+            if (events[day].length === 0) delete events[day]; // Remove empty day
+            localStorage.setItem("events", JSON.stringify(events));
+            loadEvents(day);
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.classList.remove("modal-show");
+            eventTitleInput.value = ""; // Clear input
+        }
+
+        cancelBtn.onclick = closeModal;
+        saveEventBtn.onclick = saveEvent;
+
+        // Load calendar on page load
+        window.onload = loadCalendar;
+    </script>
+
+</body>
+</html>

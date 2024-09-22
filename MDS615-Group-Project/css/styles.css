@@ -1,0 +1,441 @@
+/* General scaffold styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Calendar and general app styles */
+* {
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 0;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    background: pink;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.calendar {
+    position: relative;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .3);
+    height: 500px;
+    width: 100%;
+    max-width: 600px;
+    perspective: 1000;
+    transition: transform 0.9s;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.front, .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.9s;
+}
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.back {
+    z-index: 1;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    background: black;
+    color: white;
+    overflow: hidden;
+}
+
+.flip .front {
+    transform: rotateY(-180deg);
+}
+
+.flip .back {
+    transform: rotateY(0deg);
+}
+
+.current-date {
+    border-bottom: 1px solid rgba(73, 114, 133, .6);
+    display: flex;
+    justify-content: center;
+    padding: 20px 40px;
+}
+
+.current-date h1 {
+    color: Purple;
+    font-size: 1.4em;
+    font-weight: 300;
+}
+
+.week-days {
+    color: Purple;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    padding: 30px 40px;
+}
+
+.weeks {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 0 40px;
+}
+
+.day {
+    background: #2b4450;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.day.today {
+    background: blue;
+    border-radius: 50%;
+}
+
+.prev-month, .next-month {
+    opacity: 0.3;
+}
+
+#prev, #next {
+    background: none;
+    border: none;
+    color: purple;
+    font-size: 2em;
+    cursor: pointer;
+    padding: 0 15px;
+}
+
+/* Event form (back) styling */
+.back input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(73, 114, 133, .6);
+    color: blue;
+    font-size: 1.4em;
+    font-weight: 300;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.info {
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Event List Section */
+#event-list {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    text-align: center;
+    color: #dfebed;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#event-list li {
+    margin: 10px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(73, 114, 133, .6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-event {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1em;
+    text-align: center;
+    width: 80%;
+}
+
+.delete-event {
+    background: none;
+    border: none;
+    color: #f78536;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.delete-event:hover {
+    text-decoration: underline;
+}
+
+#event-input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(73, 114, 133, .6);
+    color: white;
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Save and Dismiss Buttons */
+.actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.actions button {
+    background: none;
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 3px;
+    padding: 15px 0;
+    text-transform: uppercase;
+    width: 50%;
+}
+
+.actions button:first-of-type {
+    border-right: 1px solid rgba(73, 114, 133, .6);
+}
+
+.actions button:hover {
+    background: #497285;
+    cursor: pointer;
+}
+
+.actions button:active {
+    background: #5889a0;
+    outline: none;
+}
+
+.actions button {
+    width: 45%;
+    padding: 10px;
+    background: #497285;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.actions button:hover {
+    background: #5889a0;
+}
+
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: lightblue;
+    text-align: center;
+    padding: 50px;
+}
+
+#Music Player {
+    color: pink;
+    margin-bottom: 20px;
+}
+
+/* Music Player Controls */
+#player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#player-controls button,
+#volume-slider {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#player-controls button {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#player-controls button:hover {
+    background-color: #2980b9;
+}
+
+#volume-slider {
+    width: 150px;
+}
+
+#track-info {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+}
+
+#upload-area {
+    margin-top: 30px;
+}
+
+#upload-area label {
+    font-size: 18px;
+}
+
+#upload-area input {
+    margin-top: 10px;
+}
+
+/*Photo*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: pink;
+    text-align: center;
+    padding: 20px;
+}
+
+#PhotoUpload {
+    color: white;
+}
+
+.upload-container {
+    margin-bottom: 20px;
+}
+
+#photo-upload {
+    display: none; /* Hidden default file input */
+}
+
+.upload-btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #2980b9;
+}
+
+.photo-preview-container {
+    margin-top: 20px;
+}
+
+#photo-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.photo-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-item .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: none;
+    transition: background-color 0.3s;
+}
+
+.photo-item:hover .delete-btn {
+    display: block;
+}
+
+.photo-item .delete-btn:hover {
+    background-color: #c0392b;
+}
